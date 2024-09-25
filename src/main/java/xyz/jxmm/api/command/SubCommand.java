@@ -127,6 +127,8 @@ public abstract class SubCommand {
         return permission.isEmpty() || p.hasPermission("duels.*") || p.hasPermission(permission);
     }
 
+    public abstract boolean needOp();
+
 
 
     /**

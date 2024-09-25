@@ -1,7 +1,6 @@
 package xyz.jxmm.api;
 
 import org.bukkit.entity.Player;
-
 import xyz.jxmm.api.command.ParentCommand;
 
 public interface Duels {

@@ -1,6 +1,6 @@
 name: cs_on_Minecraft
 version: '1.0-SNAPSHOT'
-main: xyz.jxmm.cs_on_Minecraft.Cs_on_Minecraft
+main: xyz.jxmm.Cs_on_Minecraft
 api-version: '1.19'
 authors: [ 靖暄 ]
 description: 在MC里实现CS中包含的玩法
