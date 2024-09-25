@@ -2,13 +2,12 @@ package xyz.jxmm;
 
 
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.jxmm.commands.Lobby;
 import xyz.jxmm.commands.MainCommand;
 import xyz.jxmm.map.config.MapList;
 
@@ -53,6 +52,7 @@ public final class Cs_on_Minecraft extends JavaPlugin {
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
             commandMap.register(mainCmd, new MainCommand("cs"));
+            commandMap.register("", new Lobby("lobby"));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -67,6 +67,10 @@ public final class Cs_on_Minecraft extends JavaPlugin {
         }
 
         MapList.main();
+
+        for (World w : Bukkit.getWorlds()){
+            w.setDifficulty(Difficulty.PEACEFUL);
+        }
 
     }
 

@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
-import xyz.jxmm.commands.admin.maps.AddRespawnPoint;
-import xyz.jxmm.commands.admin.maps.CreateMap;
-import xyz.jxmm.commands.admin.maps.SetWaitingSpawn;
+import xyz.jxmm.commands.admin.maps.*;
 import xyz.jxmm.commands.admin.subCommands.SetLobby;
 
 import java.util.ArrayList;
@@ -33,7 +31,9 @@ public class Admin extends SubCommand implements ParentCommand {
         addSubCommand(new SetLobby(this, "setupLobby"));
         addSubCommand(new CreateMap(this, "createMap"));
         addSubCommand(new SetWaitingSpawn(this, "setupWaitingSpawn"));
+        addSubCommand(new BackToLobby(this,"backToLobby"));
         addSubCommand(new AddRespawnPoint(this,"addSpawnPoint"));
+        addSubCommand(new EditMap(this,"editMap"));
 
     }
 

@@ -50,6 +50,7 @@ public class SetWaitingSpawn extends SubCommand {
                 if (!p.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)) {
                     Location loc = p.getLocation();
                     World world = loc.getWorld();
+                    world.setSpawnLocation(loc);
                     JsonObject json = gson.fromJson(FileReaderMethod.fileReader(arenasFolder + "\\" + world.getName() + ".json"), JsonObject.class);
                     json.get("lobbyLoc").getAsJsonObject().addProperty("x", loc.getX());
                     json.get("lobbyLoc").getAsJsonObject().addProperty("y", loc.getY());

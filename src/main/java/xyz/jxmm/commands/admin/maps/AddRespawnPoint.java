@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class AddRespawnPoint extends SubCommand {
         }
 
         Player p = (Player) s;
-        String filePath = Cs_on_Minecraft.getPlugin().getDataFolder().toPath() + "/" + p.getWorld().getName() + ".json";
+        String filePath = Cs_on_Minecraft.getPlugin().getDataFolder().toPath() + "/arenas/" + p.getWorld().getName() + ".json";
 
         JsonObject json = gson.fromJson(FileReaderMethod.fileReader(filePath), JsonObject.class);
         JsonArray respawnPoints = json.has("respawnPoints") ? json.get("respawnPoints").getAsJsonArray() : new JsonArray();
@@ -56,6 +57,7 @@ public class AddRespawnPoint extends SubCommand {
         respawnPoints.add(loc);
         json.add("respawnPoints", respawnPoints);
         FileWriterMethod.fileWriter(filePath, gson.toJson(json));
+        p.sendMessage(ChatColor.BLUE + "Added respawn point at " + ChatColor.GREEN + p.getLocation());
 
         return true;
 

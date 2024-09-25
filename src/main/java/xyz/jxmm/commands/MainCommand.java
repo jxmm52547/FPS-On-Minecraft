@@ -24,6 +24,7 @@ public class MainCommand extends Command implements ParentCommand {
         this.name = name;
         new Admin(this, "admin");
         new Join(this, "join");
+        new Exit(this, "exit");
 
     }
 
@@ -75,7 +76,7 @@ public class MainCommand extends Command implements ParentCommand {
                 List<String> sub = new ArrayList<>();
                 for (SubCommand sb : getSubCommands()) {
                     // 如果该指令不需要OP 则显示
-                    if (sb.needOp()) sub.add(sb.getSubCommandName());
+                    if (!sb.needOp()) sub.add(sb.getSubCommandName());
 
                 }
                 return sub;
