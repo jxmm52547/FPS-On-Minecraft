@@ -14,8 +14,11 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent e) {
         org.bukkit.entity.Player p = e.getPlayer();
+        if (Cs_on_Minecraft.lobbyLocation != null){
+            p.teleport(Cs_on_Minecraft.lobbyLocation);
+        }
         p.sendTitle("§a§l欢迎来到§b§l終末牽挂§a§l的§b§lTACZ", "§a§lWelcome back!", 10, 70, 20);
-        p.setGameMode(GameMode.SPECTATOR);
+        p.setGameMode(GameMode.ADVENTURE);
 
     }
 }

@@ -1,30 +1,27 @@
-package xyz.jxmm.commands;
+package xyz.jxmm.commands.admin.maps;
 
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
 
 import java.util.List;
 
-public class Join extends SubCommand {
+public class BackToLobby extends SubCommand {
     private ParentCommand parent;
     private String name;
-    static Plugin plugin = Cs_on_Minecraft.getPlugin();
     /**
      * @param parent parent command
      * @param name   sub-command name
      */
-    public Join(ParentCommand parent, String name) {
+    public BackToLobby(ParentCommand parent, String name) {
         super(parent, name);
         this.parent = parent;
         this.name = name;
+
     }
 
     /**
@@ -42,18 +39,14 @@ public class Join extends SubCommand {
 
         Player player = (Player) s;
         if (!player.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)){
-            player.setGameMode(GameMode.ADVENTURE);
-        } else {
-            player.sendMessage(ChatColor.RED + "仅能在地图内使用该指令!");
+            player.teleport(Cs_on_Minecraft.lobbyLocation);
         }
-
-
-        return true;
+        return false;
     }
 
     @Override
     public boolean needOp() {
-        return false;
+        return true;
     }
 
     /**
@@ -66,6 +59,6 @@ public class Join extends SubCommand {
      */
     @Override
     public List<String> getTabComplete(CommandSender s, String alias, String[] args, Location location) {
-        return null;
+        return List.of();
     }
 }

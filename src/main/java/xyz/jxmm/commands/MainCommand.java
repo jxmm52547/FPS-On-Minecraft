@@ -7,7 +7,8 @@ import org.bukkit.entity.Player;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
-import xyz.jxmm.commands.maps.CreateMap;
+import xyz.jxmm.commands.admin.Admin;
+import xyz.jxmm.commands.admin.maps.CreateMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +22,8 @@ public class MainCommand extends Command implements ParentCommand {
     public MainCommand(String name) {
         super(name);
         this.name = name;
+        new Admin(this, "admin");
         new Join(this, "join");
-        new CreateMap(this, "create");
 
     }
 

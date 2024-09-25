@@ -15,10 +15,23 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        url 'https://maven.aliyun.com/repository/public'
+    }
+    maven {
+        credentials {
+            username '63fd92aa69c5d5aa17c50aae'
+            password 'j1I-dlBgXNPc'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2337074-release-f5MMk7'
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly('xyz.jxmm.mc:mohist-server:1.19.2-141')
+    compileOnly('xyz.jxmm.mc:forge-server:1.19.2-43.4.2')
+    compileOnly('xyz.jxmm.mc:fmlLoader:1.19.2-43.2.2')
 }
 
 def targetJavaVersion = 17
