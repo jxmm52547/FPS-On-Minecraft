@@ -1,9 +1,10 @@
-package xyz.jxmm;
+package xyz.jxmm.events;
 
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import xyz.jxmm.Cs_on_Minecraft;
 
 public class PlayerJoin implements Listener {
     public static PlayerJoin instance;

@@ -9,6 +9,8 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.jxmm.commands.Lobby;
 import xyz.jxmm.commands.MainCommand;
+import xyz.jxmm.events.EventListener;
+import xyz.jxmm.events.PlayerJoin;
 import xyz.jxmm.map.config.MapList;
 
 import java.io.File;
@@ -58,8 +60,8 @@ public final class Cs_on_Minecraft extends JavaPlugin {
         }
         Bukkit.getServicesManager().register(xyz.jxmm.api.Duels.class, api, this, ServicePriority.Highest);
 
-        // 监听玩家连接到服务器
-        Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
+        // 注册事件监听
+        EventListener.main();
 
         //竞技场目录创建
         if (!new File(plugin.getDataFolder() + "\\arenas").exists()){

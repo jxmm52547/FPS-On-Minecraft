@@ -8,10 +8,12 @@ import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
+import xyz.jxmm.gaming.InGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,7 @@ public class Join extends SubCommand implements ParentCommand {
                 }
                 player.setGameMode(GameMode.ADVENTURE);
                 player.teleport(locationList.get(new Random().nextInt(locations.size())));
+                player.getInventory().addItem(new ItemStack(Material.DIAMOND));
                 return true;
             } else {
                 player.sendMessage(ChatColor.RED + "无参数仅能在地图中使用!");
