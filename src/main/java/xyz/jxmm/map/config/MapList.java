@@ -42,6 +42,8 @@ public class MapList {
                     w.setGameRule(GameRule.NATURAL_REGENERATION, false);
                     w.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
                     w.setGameRule(GameRule.KEEP_INVENTORY, true);
+                    w.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+                    w.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
                     w.setSpawnLocation(
                             loc.get("x").getAsInt(),
                             loc.get("y").getAsInt(),

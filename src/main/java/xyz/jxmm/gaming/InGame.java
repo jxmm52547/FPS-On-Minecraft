@@ -9,7 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.jxmm.Cs_on_Minecraft;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +23,32 @@ import static xyz.jxmm.utils.ItemStackFromBase64.itemStackFromBase64;
 public class InGame {
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private Player player;
-    private String folder = plugin.getDataFolder().toString() + "/arenas/";
+    private final String folder = plugin.getDataFolder() + "/arenas/";
     private World world;
-    private int score;
+    private final Scoreboard scoreboard = plugin.getServer().getScoreboardManager().getMainScoreboard();
+    private String worldName;
+    private int score = 0;
 
     public InGame(Player player) {
         this.player = player;
         this.world = player.getWorld();
+        this.worldName = player.getWorld().getName();
+
+        this.score = scoreboard.getObjective(worldName + "_killCount").getScore(player.getName()).getScore();
+
+        // 给予玩家生命恢复1无限时间的效果
+        player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
     }
 
     public void firstJoin(){
         player.setGameMode(GameMode.ADVENTURE);
         player.getInventory().clear();
-        score = 0;
+
+        Objective killCount = scoreboard.getObjective(worldName + "_killCount");
+        if (killCount != null) {
+            killCount.getScore(player.getName()).setScore(0);
+            this.score = killCount.getScore(player.getName()).getScore();
+        }
 
         JsonArray locations = gson.fromJson(fileReader(folder + world.getName() + ".json"), JsonObject.class).get("respawnPoints").getAsJsonArray();
         List<Location> locationList = new ArrayList<>();
@@ -68,10 +82,12 @@ public class InGame {
             Location loc = new Location(world, x, y, z, yaw, pitch);
             locationList.add(loc);
         }
+        int n = new Random().nextInt(locations.size());
+        plugin.getLogger().warning(String.valueOf(n));
         player.setBedSpawnLocation(locationList.get(new Random().nextInt(locations.size())), true);
         player.teleport(locationList.get(new Random().nextInt(locations.size())));
         this.giveWeapon();
-        this.giveDefaultItem();
+        player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
     }
 
     public void giveDefaultItem(){
@@ -99,11 +115,11 @@ public class InGame {
             weaponsList.add(itemStack);
         }
         player.getInventory().addItem(weaponsList.get(score));
+        this.giveDefaultItem();
 
     }
 
-    public void addScore(){
-        score++;
+    public void updateWeapon(){
         this.giveWeapon();
     }
 }

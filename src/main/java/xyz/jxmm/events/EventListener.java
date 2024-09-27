@@ -10,5 +10,6 @@ public class EventListener {
         // 监听玩家连接到服务器
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerRespawn(), plugin);
+        Bukkit.getPluginManager().registerEvents(new HungryEvent(), plugin);
     }
 }

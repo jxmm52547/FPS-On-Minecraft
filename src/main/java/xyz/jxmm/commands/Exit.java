@@ -1,5 +1,6 @@
 package xyz.jxmm.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
+import xyz.jxmm.gaming.UpdateScoreboard;
 
 import java.util.List;
 
@@ -38,7 +40,16 @@ public class Exit extends SubCommand {
             player.teleport(player.getWorld().getSpawnLocation());
             player.setGameMode(GameMode.SPECTATOR);
             player.sendTitle("§a§l已切换至旁观模式", "§a§l休息会吗", 10, 70, 20);
+            player.setBedSpawnLocation(Cs_on_Minecraft.lobbyLocation,true);
+
+            new UpdateScoreboard(player).clear();
+
+
             return true;
+
+
+        } else {
+            player.sendMessage(ChatColor.RED + "无法在大厅使用该指令!");
         }
         return false;
     }

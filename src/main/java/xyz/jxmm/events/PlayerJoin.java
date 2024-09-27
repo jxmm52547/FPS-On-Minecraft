@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
 import xyz.jxmm.Cs_on_Minecraft;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent e) {
         org.bukkit.entity.Player p = e.getPlayer();
+        p.getInventory().clear();
         if (Cs_on_Minecraft.lobbyLocation != null){
             p.teleport(Cs_on_Minecraft.lobbyLocation);
         }
@@ -34,20 +36,24 @@ public class PlayerJoin implements Listener {
             if (!w.getName().equalsIgnoreCase(Cs_on_Minecraft.lobbyWorld)){
                 try{
                     plugin.getServer().getScoreboardManager().getMainScoreboard()
-                            .registerNewObjective(w.getName() + "_killCount", Criteria.DUMMY, ChatColor.RED + "击杀数")
+                            .registerNewObjective(w.getName() + "_killCount", Criteria.DUMMY, ChatColor.RED + w.getName() + "击杀数")
                             .setDisplaySlot(DisplaySlot.SIDEBAR);
                     plugin.getServer().getScoreboardManager().getMainScoreboard()
-                            .registerNewObjective(w.getName() + "_deathCount", Criteria.DUMMY, ChatColor.BLUE + "死亡数")
+                            .registerNewObjective(w.getName() + "_deathCount", Criteria.DUMMY, ChatColor.BLUE + w.getName() + "死亡数")
                             .setDisplaySlot(DisplaySlot.PLAYER_LIST);
                 } catch (IllegalArgumentException exception){
                     plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(w.getName() + "_killCount").unregister();
                     plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(w.getName() + "_deathCount").unregister();
-                    plugin.getServer().getScoreboardManager().getMainScoreboard()
-                            .registerNewObjective(w.getName() + "_killCount", Criteria.DUMMY, ChatColor.RED + "击杀数")
-                            .setDisplaySlot(DisplaySlot.SIDEBAR);
-                    plugin.getServer().getScoreboardManager().getMainScoreboard()
-                            .registerNewObjective(w.getName() + "_deathCount", Criteria.DUMMY, ChatColor.BLUE + "死亡数")
-                            .setDisplaySlot(DisplaySlot.PLAYER_LIST);
+                    Objective killCount = plugin.getServer().getScoreboardManager()
+                            .getMainScoreboard()
+                            .registerNewObjective(w.getName() + "_killCount", Criteria.DUMMY, ChatColor.RED + w.getName() + "击杀数");
+                    killCount.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+                    Objective deathCount = plugin.getServer().getScoreboardManager().
+                            getMainScoreboard()
+                            .registerNewObjective(w.getName() + "_deathCount", Criteria.DUMMY, ChatColor.BLUE + w.getName() + "死亡数");
+                    deathCount.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
                 }
             }
         }

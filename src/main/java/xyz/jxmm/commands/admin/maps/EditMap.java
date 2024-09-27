@@ -36,8 +36,9 @@ public class EditMap extends SubCommand implements ParentCommand {
 
         Player p = (Player) s;
         if (args.length == 1) {
+            String worldName = args[0];
             for (World w : Bukkit.getWorlds()){
-                if (!w.getName().equals(Cs_on_Minecraft.lobbyWorld)){
+                if (!w.getName().equals(Cs_on_Minecraft.lobbyWorld) && w.getName().equalsIgnoreCase(worldName)){
                     p.setGameMode(GameMode.CREATIVE);
                     p.teleport(w.getSpawnLocation());
                     return true;
