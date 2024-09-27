@@ -8,7 +8,6 @@ import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
@@ -52,35 +51,18 @@ public class Join extends SubCommand implements ParentCommand {
         Player player = (Player) s;
         if (args.length == 0){
             if (!player.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)){
-                World w = player.getWorld();
-
-                String filePath = plugin.getDataFolder() + "/arenas/" + w.getName() +  ".json";
-                List<Location> locationList = new ArrayList<>();
-                JsonArray locations = gson.fromJson(fileReader(filePath), JsonObject.class).get("respawnPoints").getAsJsonArray();
-
-                for (int i = 0; i < locations.size(); i++) {
-                    JsonObject jsonObject = locations.get(i).getAsJsonObject();
-                    double x = jsonObject.get("x").getAsDouble();
-                    double y = jsonObject.get("y").getAsDouble();
-                    double z = jsonObject.get("z").getAsDouble();
-                    float yaw =jsonObject.get("yaw").getAsFloat();
-                    float pitch = jsonObject.get("pitch").getAsFloat();
-                    Location loc = new Location(w, x, y, z, yaw, pitch);
-                    locationList.add(loc);
-                }
-                player.setGameMode(GameMode.ADVENTURE);
-                player.teleport(locationList.get(new Random().nextInt(locations.size())));
-                player.getInventory().addItem(new ItemStack(Material.DIAMOND));
-                return true;
+                new InGame(player).firstJoin();
             } else {
                 player.sendMessage(ChatColor.RED + "无参数仅能在地图中使用!");
-                return true;
             }
+
+            return true;
         } else {
             World w = Bukkit.getWorld(args[0].replaceAll(" ",""));
             player.teleport(w.getSpawnLocation());
             player.setGameMode(GameMode.SPECTATOR);
             player.sendTitle(ChatColor.GREEN + "You have joined " + args[0], ChatColor.AQUA + "Have fun!", 10, 70, 20);
+
             return true;
         }
 

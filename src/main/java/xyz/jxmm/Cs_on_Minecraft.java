@@ -11,6 +11,7 @@ import xyz.jxmm.commands.Lobby;
 import xyz.jxmm.commands.MainCommand;
 import xyz.jxmm.events.EventListener;
 import xyz.jxmm.events.PlayerJoin;
+import xyz.jxmm.map.CreateScoreboard;
 import xyz.jxmm.map.config.MapList;
 
 import java.io.File;
@@ -19,8 +20,8 @@ import java.lang.reflect.Field;
 
 public final class Cs_on_Minecraft extends JavaPlugin {
 
-    public static String mainCmd = "cs", link ="https://github.com/jxmm52547/duels";
-    private static Plugin plugin;
+    public static String mainCmd = "cs", link ="https://github.com/jxmm52547/cs_on_Minecraft";
+    public static Plugin plugin;
     public static JsonObject config = new JsonObject();
 
     public static String lobbyWorld = "";
@@ -68,7 +69,12 @@ public final class Cs_on_Minecraft extends JavaPlugin {
             new File(plugin.getDataFolder() + "\\arenas").mkdir();
         }
 
+        //加载地图
         MapList.main();
+
+        //创建计分板
+        new CreateScoreboard();
+
 
         for (World w : Bukkit.getWorlds()){
             w.setDifficulty(Difficulty.PEACEFUL);

@@ -4,27 +4,29 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
 import xyz.jxmm.utils.FileReaderMethod;
-import xyz.jxmm.utils.FileWriterMethod;
 
-import java.io.File;
 import java.util.List;
 
-public class AddRespawnPoint extends SubCommand {
+import static xyz.jxmm.utils.FileWriterMethod.fileWriter;
+import static xyz.jxmm.utils.ItemStackToBase64.itemStackToBase64;
+
+public class AddDefaultItem extends SubCommand {
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+
     /**
      * @param parent parent command
      * @param name   sub-command name
      */
-    public AddRespawnPoint(ParentCommand parent, String name) {
+    public AddDefaultItem(ParentCommand parent, String name) {
         super(parent, name);
     }
 
@@ -41,27 +43,21 @@ public class AddRespawnPoint extends SubCommand {
             return false;
         }
 
-        Player p = (Player) s;
-        String filePath = Cs_on_Minecraft.getPlugin().getDataFolder().toPath() + "/arenas/" + p.getWorld().getName() + ".json";
-
-        JsonObject json = gson.fromJson(FileReaderMethod.fileReader(filePath), JsonObject.class);
-        JsonArray respawnPoints = json.has("respawnPoints") ? json.get("respawnPoints").getAsJsonArray() : new JsonArray();
-
-        JsonObject loc = new JsonObject();
-        loc.addProperty("x", p.getLocation().getX());
-        loc.addProperty("y", p.getLocation().getY());
-        loc.addProperty("z", p.getLocation().getZ());
-        loc.addProperty("yaw", p.getLocation().getYaw());
-        loc.addProperty("pitch", p.getLocation().getPitch());
-
-        respawnPoints.add(loc);
-        json.add("respawnPoints", respawnPoints);
-        FileWriterMethod.fileWriter(filePath, gson.toJson(json));
-        p.sendMessage(ChatColor.BLUE + "Added respawn point at " + ChatColor.GREEN + p.getLocation());
-
-        return true;
-
-
+        Player player = (Player) s;
+        ItemStack item =  player.getInventory().getItemInMainHand();
+        if (item.getAmount() == 0){
+            player.sendMessage(ChatColor.RED + "请手持武器!");
+            return false;
+        } else {
+            player.sendMessage("Added Default Item");
+            String filePath = Cs_on_Minecraft.getPlugin().getDataFolder().toPath() + "/arenas/" + player.getWorld().getName() + ".json";
+            JsonObject json = gson.fromJson(FileReaderMethod.fileReader(filePath), JsonObject.class);
+            JsonArray items = json.has("items") ? json.get("items").getAsJsonArray() : new JsonArray();
+            items.add(itemStackToBase64(item));
+            json.add("items", items);
+            fileWriter(filePath, gson.toJson(json));
+            return true;
+        }
     }
 
     @Override

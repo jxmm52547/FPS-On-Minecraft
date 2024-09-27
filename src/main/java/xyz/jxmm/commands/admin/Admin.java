@@ -35,6 +35,7 @@ public class Admin extends SubCommand implements ParentCommand {
         addSubCommand(new AddRespawnPoint(this,"addSpawnPoint"));
         addSubCommand(new EditMap(this,"editMap"));
         addSubCommand(new AddWeapon(this,"addWeapon"));
+        addSubCommand(new AddDefaultItem(this,"addDefaultItem"));
 
     }
 

@@ -1,5 +1,6 @@
 package xyz.jxmm.commands.admin.maps;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -40,6 +41,9 @@ public class BackToLobby extends SubCommand {
         Player player = (Player) s;
         if (!player.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)){
             player.teleport(Cs_on_Minecraft.lobbyLocation);
+        } else {
+            player.sendMessage(ChatColor.RED + "You are already in lobby");
+            return true;
         }
         return false;
     }

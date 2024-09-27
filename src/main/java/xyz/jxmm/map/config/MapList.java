@@ -3,11 +3,9 @@ package xyz.jxmm.map.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scoreboard.Scoreboard;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.map.SetupSession;
 import xyz.jxmm.utils.FileReaderMethod;
@@ -41,6 +39,9 @@ public class MapList {
                     SetupSession.deleteWorldTrash(worldName);
                     World w = Bukkit.createWorld(wc);
                     w.setKeepSpawnInMemory(true);
+                    w.setGameRule(GameRule.NATURAL_REGENERATION, false);
+                    w.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
+                    w.setGameRule(GameRule.KEEP_INVENTORY, true);
                     w.setSpawnLocation(
                             loc.get("x").getAsInt(),
                             loc.get("y").getAsInt(),
@@ -50,6 +51,7 @@ public class MapList {
                     try {
                         plugin.getLogger().info(ChatColor.GREEN + "Creating a new void map: " + worldName);
                         World w = Bukkit.createWorld(wc);
+                        plugin.getServer().getScoreboardManager().getMainScoreboard().registerNewTeam(worldName);
                         w.setKeepSpawnInMemory(true);
                         w.setSpawnLocation(0, 64, 0);
                     } catch (Exception ex){

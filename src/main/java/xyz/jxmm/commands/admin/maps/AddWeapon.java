@@ -4,25 +4,30 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
 import xyz.jxmm.utils.FileReaderMethod;
 
-import java.util.List;
+import org.bukkit.inventory.CraftingInventory;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 import static xyz.jxmm.commands.admin.maps.SetWaitingSpawn.plugin;
 import static xyz.jxmm.utils.FileWriterMethod.fileWriter;
+import static xyz.jxmm.utils.ItemStackFromBase64.itemStackFromBase64;
+import static xyz.jxmm.utils.ItemStackToBase64.itemStackToBase64;
 
 public class AddWeapon extends SubCommand {
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -57,14 +62,9 @@ public class AddWeapon extends SubCommand {
             String filePath = Cs_on_Minecraft.getPlugin().getDataFolder().toPath() + "/arenas/" + player.getWorld().getName() + ".json";
             JsonObject json = gson.fromJson(FileReaderMethod.fileReader(filePath), JsonObject.class);
             JsonArray weapons = json.has("weapons") ? json.get("weapons").getAsJsonArray() : new JsonArray();
-
-            weapons.add(item.toString());
+            weapons.add(itemStackToBase64(item));
             json.add("weapons", weapons);
-            fileWriter(filePath,gson.toJson(json));
-
-            plugin.getLogger().info(weapons.toString());
-            player.sendMessage(weapons.toString());
-
+            fileWriter(filePath, gson.toJson(json));
             return true;
         }
     }

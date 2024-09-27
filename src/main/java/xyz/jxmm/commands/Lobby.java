@@ -1,5 +1,6 @@
 package xyz.jxmm.commands;
 
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -27,6 +28,7 @@ public class Lobby extends Command {
         }
 
         Player p = (Player) sender;
+        p.setGameMode(GameMode.ADVENTURE);
         p.teleport(Cs_on_Minecraft.lobbyLocation);
         p.sendMessage("§a§l[§6§l終末牽挂§a§l] §7已传送至 §6lobby");
         return true;
