@@ -9,6 +9,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.jxmm.commands.Lobby;
 import xyz.jxmm.commands.MainCommand;
+import xyz.jxmm.commands.Respawn;
 import xyz.jxmm.events.EventListener;
 import xyz.jxmm.events.PlayerJoin;
 import xyz.jxmm.map.CreateScoreboard;
@@ -56,6 +57,7 @@ public final class Cs_on_Minecraft extends JavaPlugin {
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
             commandMap.register(mainCmd, new MainCommand("cs"));
             commandMap.register("", new Lobby("lobby"));
+            commandMap.register("", new Respawn("respawn"));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

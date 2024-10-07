@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -84,8 +85,8 @@ public class InGame {
         }
         int n = new Random().nextInt(locations.size());
         plugin.getLogger().warning(String.valueOf(n));
-        player.setBedSpawnLocation(locationList.get(new Random().nextInt(locations.size())), true);
-        player.teleport(locationList.get(new Random().nextInt(locations.size())));
+        player.setBedSpawnLocation(locationList.get(n), true);
+        player.teleport(locationList.get(n));
         this.giveWeapon();
         player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
     }
@@ -114,8 +115,18 @@ public class InGame {
             ItemStack itemStack = itemStackFromBase64(weapon);
             weaponsList.add(itemStack);
         }
-        player.getInventory().addItem(weaponsList.get(score));
-        this.giveDefaultItem();
+        if (score >= weaponsList.size()){
+            player.setGameMode(GameMode.SPECTATOR);
+            player.sendTitle(ChatColor.RED + "游戏结束", ChatColor.GREEN + "good job", 10, 30, 10);
+            for (Player all : world.getPlayers()){
+                all.sendMessage(ChatColor.AQUA + player.getName() + "已完成进度!");
+            }
+            new UpdateScoreboard(player).clear();
+        } else {
+            player.getInventory().addItem(weaponsList.get(score));
+            this.giveDefaultItem();
+        }
+
 
     }
 

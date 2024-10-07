@@ -1,14 +1,15 @@
 package xyz.jxmm.commands;
 
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import xyz.jxmm.Cs_on_Minecraft;
+import org.jetbrains.annotations.NotNull;
+import xyz.jxmm.gaming.InGame;
 
-public class Lobby extends Command {
-    public Lobby(String name) {
+public class Respawn extends Command {
+
+    public Respawn(@NotNull String name) {
         super(name);
     }
 
@@ -21,17 +22,14 @@ public class Lobby extends Command {
      * @return true if the command was successful, otherwise false
      */
     @Override
-    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage("This command is for player");
             return false;
         }
 
         Player p = (Player) sender;
-        p.setGameMode(GameMode.ADVENTURE);
-        p.teleport(Cs_on_Minecraft.lobbyLocation);
-        p.sendMessage("§a§l[§6§l終末牽挂§a§l] §7已传送至 §6lobby");
-        p.setBedSpawnLocation(Cs_on_Minecraft.lobbyLocation, false);
+        new InGame(p).respawn();
         return true;
     }
 }

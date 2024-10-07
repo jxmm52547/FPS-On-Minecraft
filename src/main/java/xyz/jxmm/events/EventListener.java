@@ -9,7 +9,11 @@ public class EventListener {
     public static void main(){
         // 监听玩家连接到服务器
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), plugin);
+        // 监听玩家死亡
         Bukkit.getPluginManager().registerEvents(new PlayerRespawn(), plugin);
+        // 监听玩家饥饿值
         Bukkit.getPluginManager().registerEvents(new HungryEvent(), plugin);
+        // 监听玩家传送
+        Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), plugin);
     }
 }
