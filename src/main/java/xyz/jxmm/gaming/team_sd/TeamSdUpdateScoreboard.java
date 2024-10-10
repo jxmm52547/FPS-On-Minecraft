@@ -7,7 +7,9 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import xyz.jxmm.gaming.ModeTeamSD;
 
+import static xyz.jxmm.Cs_on_Minecraft.mainCmd;
 import static xyz.jxmm.Cs_on_Minecraft.plugin;
 import static xyz.jxmm.utils.SendActionBar.sendActionBar;
 
@@ -43,18 +45,44 @@ public class TeamSdUpdateScoreboard {
                 ChatColor.DARK_GREEN + "击杀数: "
                         + ChatColor.GREEN + killCount.getScore(player.getName()).getScore());
         // 获取计分板
+        int s = 0;
+        String team;
         if (TeamPlayerList.playerListA.contains(player)){
+            team = "A";
             Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
-            int s = score.getScore("队伍A").getScore();
-            score.getScore("队伍A").setScore(s + 1);
+            s = score.getScore("队伍A").getScore();
+            score.getScore("队伍A").setScore(s++);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+
         } else if (TeamPlayerList.playerListB.contains(player)){
+            team = "B";
             Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
-            int s = score.getScore("队伍B").getScore();
-            score.getScore("队伍B").setScore(s + 1);
+            s = score.getScore("队伍B").getScore();
+            score.getScore("队伍B").setScore(s++);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+        } else {
+            team = "";
+        }
+        new ModeTeamSD(player).giveDefaultItem();
+
+        if (s == 80){
+            player.getWorld().getPlayers().forEach(p -> {
+                switch (team){
+                    case "A":
+                        p.sendTitle(ChatColor.AQUA + "游戏结束!", ChatColor.BLUE + "队伍A胜利", 10, 20, 10);
+                        break;
+                    case "B":
+                        p.sendTitle(ChatColor.AQUA + "游戏结束!", ChatColor.RED + "队伍B胜利", 10, 20, 10);
+                        break;
+                    default:
+                        p.chat("/" + mainCmd + " exit");
+                        Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
+                        score.getScore("队伍A").setScore(0);
+                        score.getScore("队伍B").setScore(0);
+                }
+            });
         }
 
     }

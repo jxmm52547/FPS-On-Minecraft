@@ -1,11 +1,15 @@
 package xyz.jxmm.commands.admin.maps;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
@@ -14,8 +18,11 @@ import java.util.List;
 
 import static xyz.jxmm.Cs_on_Minecraft.lobbyWorld;
 import static xyz.jxmm.Cs_on_Minecraft.plugin;
+import static xyz.jxmm.utils.FileReaderMethod.fileReader;
 
 public class ReStart extends SubCommand implements ParentCommand {
+    static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    private final String folder = plugin.getDataFolder() + "/arenas/";
     /**
      * @param parent parent command
      * @param name   sub-command name
@@ -43,10 +50,21 @@ public class ReStart extends SubCommand implements ParentCommand {
             if (args[0].equalsIgnoreCase(lobbyWorld)){
                 s.sendMessage( ChatColor.RED + "无法对大厅使用该指令");
             } else {
-                for (Player all : plugin.getServer().getWorld(args[0]).getPlayers()){
-                    all.sendRawMessage("/" + Cs_on_Minecraft.mainCmd + " exit");
-                    return true;
+                Player p = (Player) s;
+                String worldName = p.getWorld().getName();
+                String mode = gson.fromJson(fileReader(folder + worldName), JsonObject.class).get("mode").getAsString();
+                switch (mode){
+                    case "team-sd":
+                        Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
+                        score.getScore("队伍A").setScore(0);
+                        score.getScore("队伍B").setScore(0);
+                        break;
+                    default:
+                        for (Player all : plugin.getServer().getWorld(args[0]).getPlayers()){
+                            all.sendRawMessage("/" + Cs_on_Minecraft.mainCmd + " exit");
+                        }
                 }
+                return true;
             }
 
         }
