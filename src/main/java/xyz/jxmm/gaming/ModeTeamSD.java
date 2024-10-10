@@ -78,7 +78,6 @@ public class ModeTeamSD {
             int n = playerListA.size() - 1;
             player.setBedSpawnLocation(locationList.get(n), true);
             player.teleport(locationList.get(n));
-            this.giveDefaultItem();
 
         } else if (playerListB.contains(player)){
             player.setFlying(false);
@@ -110,7 +109,6 @@ public class ModeTeamSD {
             int n = playerListA.size() - 1;
             player.setBedSpawnLocation(locationList.get(n), true);
             player.teleport(locationList.get(n));
-            this.giveDefaultItem();
         } else {
             player.sendMessage(ChatColor.RED + "加入任意队伍后可进入游戏!");
         }
@@ -139,7 +137,6 @@ public class ModeTeamSD {
         int n = playerListA.size() - 1;
         player.setBedSpawnLocation(locationList.get(n), true);
         player.teleport(locationList.get(n));
-        this.giveDefaultItem();
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
     }
 
@@ -155,7 +152,10 @@ public class ModeTeamSD {
             }
 
             for (ItemStack itemStack : defaultItemsList){
-                player.getInventory().addItem(itemStack);
+                if (!player.getInventory().contains(itemStack)){
+                    player.getInventory().addItem(itemStack);
+                }
+
             }
         } catch (NullPointerException e){
             plugin.getLogger().warning("未找到该地图的默认物品!");

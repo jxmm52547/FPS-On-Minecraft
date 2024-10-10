@@ -2,6 +2,7 @@ package xyz.jxmm.gaming.team_sd;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -55,6 +56,7 @@ public class TeamSdUpdateScoreboard {
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
         }
+
     }
 
     public void clear(){
