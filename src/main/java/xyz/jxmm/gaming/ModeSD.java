@@ -10,8 +10,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import xyz.jxmm.gaming.sd.SdUpdateScoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import static xyz.jxmm.Cs_on_Minecraft.plugin;
 import static xyz.jxmm.utils.FileReaderMethod.fileReader;
 import static xyz.jxmm.utils.ItemStackFromBase64.itemStackFromBase64;
 
-public class InGame {
+public class ModeSD {
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private Player player;
     private final String folder = plugin.getDataFolder() + "/arenas/";
@@ -30,7 +32,7 @@ public class InGame {
     private String worldName;
     private int score = 0;
 
-    public InGame(Player player) {
+    public ModeSD(Player player) {
         this.player = player;
         this.world = player.getWorld();
         this.worldName = player.getWorld().getName();
@@ -38,7 +40,7 @@ public class InGame {
         this.score = scoreboard.getObjective(worldName + "_killCount").getScore(player.getName()).getScore();
 
         // 给予玩家生命恢复1无限时间的效果
-        player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
+        player.addPotionEffect(PotionEffectType.REGENERATION.createEffect(Integer.MAX_VALUE,1));
     }
 
     public void firstJoin(){
@@ -121,7 +123,7 @@ public class InGame {
             for (Player all : world.getPlayers()){
                 all.sendMessage(ChatColor.AQUA + player.getName() + "已完成进度!");
             }
-            new UpdateScoreboard(player).clear();
+            new SdUpdateScoreboard(player).clear();
         } else {
             player.getInventory().addItem(weaponsList.get(score));
             this.giveDefaultItem();

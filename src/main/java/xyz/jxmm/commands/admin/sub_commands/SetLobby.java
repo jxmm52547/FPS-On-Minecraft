@@ -1,6 +1,5 @@
-package xyz.jxmm.commands.admin.subCommands;
+package xyz.jxmm.commands.admin.sub_commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

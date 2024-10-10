@@ -1,6 +1,7 @@
 package xyz.jxmm.commands.admin.maps;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,8 @@ public class CreateMap extends SubCommand implements ParentCommand {
     public List<String> tabComplete(CommandSender s, String alias, String[] args, Location location) throws IllegalArgumentException {
         if (args.length == 1) {
             return getWorldsList();
+        } else if (args.length == 2) {
+            return List.of("sd","team-sd");
         }
         return null;
     }
@@ -92,15 +95,19 @@ public class CreateMap extends SubCommand implements ParentCommand {
      */
     @Override
     public boolean execute(String[] args, CommandSender s) {
-        if (args.length == 1){
+        if (args.length > 0){
             if (s instanceof Player) {
                 Player p = (Player) s;
-                new SetupSession(p, args[0]);
+                if (args.length == 2){
+                    new SetupSession(p, args[0], args[1]);
+                } else {
+                    p.sendMessage(ChatColor.RED + "参数错误");
+                }
             }
 
 
         }
-        return false;
+        return true;
     }
 
     @Override

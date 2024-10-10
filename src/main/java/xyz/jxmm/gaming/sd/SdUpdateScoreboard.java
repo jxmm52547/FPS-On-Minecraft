@@ -1,4 +1,4 @@
-package xyz.jxmm.gaming;
+package xyz.jxmm.gaming.sd;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -7,12 +7,12 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import static xyz.jxmm.Cs_on_Minecraft.plugin;
 
-public class UpdateScoreboard {
+public class SdUpdateScoreboard {
     private Player player;
     private final Scoreboard scoreboard = plugin.getServer().getScoreboardManager().getMainScoreboard();
     private String worldName;
 
-    public UpdateScoreboard(Player player){
+    public SdUpdateScoreboard(Player player){
         this.player = player;
         this.worldName = player.getWorld().getName();
     }

@@ -9,7 +9,8 @@ import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
 import xyz.jxmm.commands.admin.maps.*;
-import xyz.jxmm.commands.admin.subCommands.SetLobby;
+import xyz.jxmm.commands.admin.maps.team.AddTeamSpawnPoint;
+import xyz.jxmm.commands.admin.sub_commands.SetLobby;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ public class Admin extends SubCommand implements ParentCommand {
         addSubCommand(new AddDefaultItem(this,"addDefaultItem"));
         addSubCommand(new DeleteMap(this,"deleteMap"));
         addSubCommand(new ReStart(this,"restart"));
+        addSubCommand(new AddTeamSpawnPoint(this,"addTeamSpawnPoint"));
 
     }
 

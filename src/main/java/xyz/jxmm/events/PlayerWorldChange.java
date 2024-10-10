@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.jxmm.Cs_on_Minecraft;
 
 public class PlayerWorldChange implements Listener {
@@ -25,6 +27,11 @@ public class PlayerWorldChange implements Listener {
         if (w.getName().equals(Cs_on_Minecraft.lobbyWorld)){
             p.getInventory().clear();
             p.setGameMode(GameMode.ADVENTURE);
+            p.setFlying(false);
+            p.setAllowFlight(false);
+            for (PotionEffectType potionEffectType : PotionEffectType.values()) {
+                p.removePotionEffect(potionEffectType);
+            }
         }
 
     }

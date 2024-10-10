@@ -10,8 +10,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.jxmm.commands.Lobby;
 import xyz.jxmm.commands.MainCommand;
 import xyz.jxmm.commands.Respawn;
+import xyz.jxmm.commands.TestCommand;
 import xyz.jxmm.events.EventListener;
 import xyz.jxmm.events.PlayerJoin;
+import xyz.jxmm.gaming.team_sd.inventory.InventoryList;
 import xyz.jxmm.map.CreateScoreboard;
 import xyz.jxmm.map.config.MapList;
 
@@ -58,6 +60,7 @@ public final class Cs_on_Minecraft extends JavaPlugin {
             commandMap.register(mainCmd, new MainCommand("cs"));
             commandMap.register("", new Lobby("lobby"));
             commandMap.register("", new Respawn("respawn"));
+            commandMap.register("", new TestCommand("test"));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -76,6 +79,12 @@ public final class Cs_on_Minecraft extends JavaPlugin {
 
         //创建计分板
         new CreateScoreboard();
+
+        //加载所有菜单
+        new InventoryList();
+
+        //加载计分板及队伍
+        CreateScoreboard.load();
 
 
         for (World w : Bukkit.getWorlds()){

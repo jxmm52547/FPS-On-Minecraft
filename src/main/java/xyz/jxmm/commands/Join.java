@@ -2,8 +2,6 @@ package xyz.jxmm.commands;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -12,13 +10,10 @@ import org.bukkit.plugin.Plugin;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
-import xyz.jxmm.gaming.InGame;
+import xyz.jxmm.gaming.CheckMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static xyz.jxmm.utils.FileReaderMethod.fileReader;
 
 public class Join extends SubCommand implements ParentCommand {
     private ParentCommand parent;
@@ -51,20 +46,16 @@ public class Join extends SubCommand implements ParentCommand {
         Player player = (Player) s;
         if (args.length == 0){
             if (!player.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)){
-                new InGame(player).firstJoin();
+                new CheckMode(player).join();
             } else {
                 player.sendMessage(ChatColor.RED + "无参数仅能在地图中使用!");
             }
 
-            return true;
         } else {
-            World w = Bukkit.getWorld(args[0].replaceAll(" ",""));
-            player.teleport(w.getSpawnLocation());
-            player.setGameMode(GameMode.SPECTATOR);
-            player.sendTitle(ChatColor.GREEN + "You have joined " + args[0], ChatColor.AQUA + "Have fun!", 10, 70, 20);
-
-            return true;
+            String worldName = Bukkit.getWorld(args[0].replaceAll(" ","")).getName();
+            new CheckMode(player).waiting(worldName,false);
         }
+        return true;
 
     }
 

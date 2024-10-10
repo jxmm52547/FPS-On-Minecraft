@@ -23,13 +23,15 @@ public class SetupSession implements ISetupSession{
     private String worldName;
     static Plugin plugin = Cs_on_Minecraft.getPlugin();
     static File arenasFolder = new File(plugin.getDataFolder().getPath() + "\\arenas");
+    private String mode = "sd";
 
 
-    public SetupSession(Player player, String worldName) {
+    public SetupSession(Player player, String worldName, String mode) {
         this.player = player;
         this.worldName = worldName;
         getSetupSessions().add(this);
         createWorld(this);
+        this.mode = mode;
 
 
     }
@@ -114,6 +116,7 @@ public class SetupSession implements ISetupSession{
 
         JsonObject json = new JsonObject();
         json.addProperty("world", worldName);
+        json.addProperty("mode", mode);
 
         JsonObject waitLoc = new JsonObject();
         World w = Bukkit.getWorld(worldName);
@@ -126,7 +129,7 @@ public class SetupSession implements ISetupSession{
         File arenaFile = new File(arenasFolder, worldName + ".json");
         FileWriterMethod.fileWriter(arenaFile.getPath(), gson.toJson(json));
 
-        player.spigot().sendMessage(Misc.msgHoverClick(ChatColor.BLUE + "     ▪     " + ChatColor.GOLD + "CLICK HERE TO SET THE WAITING LOBBY    " + ChatColor.BLUE + " ▪", ChatColor.LIGHT_PURPLE + "Click to set the waiting spawn.", "/" + Cs_on_Minecraft.mainCmd + " admin setWaitingSpawn", ClickEvent.Action.RUN_COMMAND));
+        player.spigot().sendMessage(Misc.msgHoverClick(ChatColor.BLUE + "     ▪     " + ChatColor.GOLD + "CLICK HERE TO SET THE WAITING LOBBY    " + ChatColor.BLUE + " ▪", ChatColor.LIGHT_PURPLE + "Click to set the waiting spawn.", "/" + Cs_on_Minecraft.mainCmd + " admin setupWaitingSpawn", ClickEvent.Action.RUN_COMMAND));
 
     }
 

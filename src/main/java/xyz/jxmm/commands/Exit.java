@@ -9,9 +9,14 @@ import org.bukkit.entity.Player;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
-import xyz.jxmm.gaming.UpdateScoreboard;
+import xyz.jxmm.gaming.CheckMode;
+import xyz.jxmm.gaming.sd.SdUpdateScoreboard;
+import xyz.jxmm.gaming.team_sd.TeamSdUpdateScoreboard;
 
 import java.util.List;
+
+import static xyz.jxmm.map.config.MapList.SD_WORLDS;
+import static xyz.jxmm.map.config.MapList.TEAM_SD_WORLDS;
 
 public class Exit extends SubCommand {
     /**
@@ -37,13 +42,18 @@ public class Exit extends SubCommand {
 
         Player player = (Player) s;
         if (!player.getWorld().getName().equals(Cs_on_Minecraft.lobbyWorld)){
+            if (TEAM_SD_WORLDS.contains(player.getWorld().getName())){
+                player.teleport(player.getWorld().getSpawnLocation());
+                player.setGameMode(GameMode.ADVENTURE);
+                new CheckMode(player).waiting(player.getWorld().getName(),true);
+            }
             player.teleport(player.getWorld().getSpawnLocation());
             player.setGameMode(GameMode.SPECTATOR);
-            player.sendTitle("§a§l已切换至旁观模式", "§a§l休息会吗", 10, 70, 20);
-            player.setBedSpawnLocation(Cs_on_Minecraft.lobbyLocation,true);
+            new CheckMode(player).waiting(player.getWorld().getName(),true);
 
-            new UpdateScoreboard(player).clear();
-
+            if (SD_WORLDS.contains(player.getWorld().getName())){
+                new TeamSdUpdateScoreboard(player).clear();
+            }
 
             return true;
 

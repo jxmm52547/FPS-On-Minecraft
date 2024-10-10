@@ -5,17 +5,20 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scoreboard.Scoreboard;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.map.SetupSession;
 import xyz.jxmm.utils.FileReaderMethod;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapList {
     static Plugin plugin = Cs_on_Minecraft.getPlugin();
     static File file = new File(plugin.getDataFolder() + "\\arenas");
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    public final static List<String> SD_WORLDS = new ArrayList<>();
+    public final static List<String> TEAM_SD_WORLDS = new ArrayList<>();
     public static void main(){
         //遍历file目录下的所有文件
         for (File f : file.listFiles()) {
@@ -24,6 +27,15 @@ public class MapList {
                 JsonObject json = gson.fromJson(FileReaderMethod.fileReader(f.getPath()), JsonObject.class);
                 String worldName = json.get("world").getAsString();
                 JsonObject loc = json.getAsJsonObject("lobbyLoc");
+
+                switch (json.get("mode").getAsString()){
+                    case "sd":
+                        SD_WORLDS.add(worldName);
+                        break;
+                    case "team-sd":
+                        TEAM_SD_WORLDS.add(worldName);
+                }
+
                 loadWorld(worldName, loc);
 
             }

@@ -20,9 +20,12 @@ public class Change {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (args[0].equals("lobby")) {
-            json.getAsJsonObject("lobby").addProperty(args[1], value);
+
+        switch (args[0]) {
+            case "mode" -> json.addProperty(args[0], value);
+            case "lobby" -> json.getAsJsonObject("lobby").addProperty(args[1], value);
         }
+
         FileWriterMethod.fileWriter(cfg.getPath(), gson.toJson(json));
 
         try {

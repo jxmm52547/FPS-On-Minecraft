@@ -58,12 +58,21 @@ public class SetWaitingSpawn extends SubCommand {
                     FileWriterMethod.fileWriter(arenasFolder + "\\" + world.getName() + ".json", gson.toJson(json));
 
                     p.sendMessage("§a设置等待大厅成功！");
-                    p.spigot().sendMessage(Misc.msgHoverClick(ChatColor.BLUE + "     ▪     " + ChatColor.GOLD + "CLICK HERE TO ADD SPAWN POINT    " + ChatColor.BLUE + " ▪", ChatColor.DARK_RED + "Click to add spawn point.", "/" + Cs_on_Minecraft.mainCmd + " admin addSpawnPoint", ClickEvent.Action.RUN_COMMAND));
-                    return true;
+
+                    switch (json.get("mode").getAsString()){
+                        case "sd":
+                            p.spigot().sendMessage(Misc.msgHoverClick(ChatColor.BLUE + "     ▪     " + ChatColor.GOLD + "CLICK HERE TO ADD SPAWN POINT    " + ChatColor.BLUE + " ▪", ChatColor.DARK_RED + "Click to add spawn point.", "/" + Cs_on_Minecraft.mainCmd + " admin addSpawnPoint", ClickEvent.Action.RUN_COMMAND));
+                        case "team-sd":
+                            p.spigot().sendMessage(Misc.msgHoverClick(ChatColor.GOLD + "     ▪     " + ChatColor.RED + "CLICK HERE TO ADD TEAM A SPAWN POINT    " + ChatColor.GOLD + " ▪", ChatColor.DARK_RED + "Click to add team A spawn point.", "/" + Cs_on_Minecraft.mainCmd + " admin addTeamSpawnPoint A", ClickEvent.Action.RUN_COMMAND));
+                            p.spigot().sendMessage(Misc.msgHoverClick(ChatColor.GOLD + "     ▪     " + ChatColor.BLUE + "CLICK HERE TO ADD TEAM B SPAWN POINT    " + ChatColor.GOLD + " ▪", ChatColor.DARK_BLUE + "Click to add team B spawn point.", "/" + Cs_on_Minecraft.mainCmd + " admin addTeamSpawnPoint B", ClickEvent.Action.RUN_COMMAND));
+
+                    }
+
+
                 } else {
                     p.sendMessage("§c你无法在主大厅设置等待大厅");
-                    return true;
                 }
+                return true;
             }
         }
         return false;

@@ -15,5 +15,11 @@ public class EventListener {
         Bukkit.getPluginManager().registerEvents(new HungryEvent(), plugin);
         // 监听玩家传送
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), plugin);
+        // 监听玩家点击容器物品
+        Bukkit.getPluginManager().registerEvents(new InventoryClick(), plugin);
+        // 监听玩家丢弃物品
+        Bukkit.getPluginManager().registerEvents(new PlayerDropItem(), plugin);
+        // 监听玩家右键物品
+        Bukkit.getPluginManager().registerEvents(new ItemUse(), plugin);
     }
 }

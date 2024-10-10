@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.api.command.ParentCommand;
 import xyz.jxmm.api.command.SubCommand;
 
@@ -43,7 +44,7 @@ public class ReStart extends SubCommand implements ParentCommand {
                 s.sendMessage( ChatColor.RED + "无法对大厅使用该指令");
             } else {
                 for (Player all : plugin.getServer().getWorld(args[0]).getPlayers()){
-                    all.sendRawMessage("/cs exit");
+                    all.sendRawMessage("/" + Cs_on_Minecraft.mainCmd + " exit");
                     return true;
                 }
             }
