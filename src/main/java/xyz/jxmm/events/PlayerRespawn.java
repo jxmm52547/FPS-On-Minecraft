@@ -5,6 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import xyz.jxmm.gaming.ModeSD;
 import xyz.jxmm.gaming.ModeTeamSD;
 import xyz.jxmm.gaming.sd.SdUpdateScoreboard;
@@ -42,6 +45,10 @@ public class PlayerRespawn implements Listener {
             } else if (TEAM_SD_WORLDS.contains(e.getPlayer().getWorld().getName())){
                 Player deathPlayer = e.getPlayer();
                 new TeamSdUpdateScoreboard(deathPlayer).death();
+                new ModeTeamSD(deathPlayer).respawn();
+                Objective sb = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(deathPlayer.getWorld().getName() + "_score");
+                plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+                sb.setDisplaySlot(DisplaySlot.SIDEBAR);
                 Player killer = e.getPlayer().getKiller();
                 new TeamSdUpdateScoreboard(killer).kill();
             }

@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import xyz.jxmm.Cs_on_Minecraft;
 
 public class Lobby extends Command {
@@ -32,6 +33,7 @@ public class Lobby extends Command {
         p.teleport(Cs_on_Minecraft.lobbyLocation);
         p.sendMessage("§a§l[§6§l終末牽挂§a§l] §7已传送至 §6lobby");
         p.setBedSpawnLocation(Cs_on_Minecraft.lobbyLocation, false);
+        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         return true;
     }
 }

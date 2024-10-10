@@ -14,6 +14,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static xyz.jxmm.map.config.MapList.SD_WORLDS;
+import static xyz.jxmm.map.config.MapList.TEAM_SD_WORLDS;
+
 
 public class SetupSession implements ISetupSession{
     static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -125,6 +128,16 @@ public class SetupSession implements ISetupSession{
         waitLoc.addProperty("z", w.getSpawnLocation().getZ());
 
         json.add("lobbyLoc", waitLoc);
+
+        switch (mode){
+            case "sd":
+                SD_WORLDS.add(worldName);
+                break;
+            case "team-sd":
+                TEAM_SD_WORLDS.add(worldName);
+                break;
+        }
+
 
         File arenaFile = new File(arenasFolder, worldName + ".json");
         FileWriterMethod.fileWriter(arenaFile.getPath(), gson.toJson(json));

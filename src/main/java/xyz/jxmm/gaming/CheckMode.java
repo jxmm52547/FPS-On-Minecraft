@@ -11,6 +11,8 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.jxmm.Cs_on_Minecraft;
 import xyz.jxmm.gaming.team_sd.inventory.WeaponsMenuItems;
 
+import java.util.Objects;
+
 import static xyz.jxmm.Cs_on_Minecraft.plugin;
 import static xyz.jxmm.utils.FileReaderMethod.fileReader;
 
@@ -66,6 +68,8 @@ public class CheckMode {
                 player.getInventory().addItem(WeaponsMenuItems.OPEN_MENU);
                 break;
         }
+
+        player.setScoreboard(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(plugin.getServer().getScoreboardManager()).getMainScoreboard().getObjective(worldName + "_score")).getScoreboard()));
 
         if (joinOrWait){
             player.sendTitle("§a§l已切换至旁观模式", "§a§l休息会吗", 10, 70, 20);

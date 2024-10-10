@@ -47,6 +47,9 @@ public class PlayerJoin implements Listener {
                         teamA.getScoreboard().getTeam(w.getName() + "teamA").addEntry("队伍A");
                         teamB.getScoreboard().getTeam(w.getName() + "teamB").addEntry("队伍B");
 
+                        teamA.setColor(ChatColor.BLUE);
+                        teamB.setColor(ChatColor.RED);
+
                         teamA.setAllowFriendlyFire(false);
                         teamB.setAllowFriendlyFire(false);
 

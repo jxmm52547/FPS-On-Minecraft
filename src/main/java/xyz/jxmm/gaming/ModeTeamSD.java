@@ -78,6 +78,7 @@ public class ModeTeamSD {
             int n = playerListA.size() - 1;
             player.setBedSpawnLocation(locationList.get(n), true);
             player.teleport(locationList.get(n));
+            this.giveDefaultItem();
 
         } else if (playerListB.contains(player)){
             player.setFlying(false);
@@ -109,12 +110,13 @@ public class ModeTeamSD {
             int n = playerListA.size() - 1;
             player.setBedSpawnLocation(locationList.get(n), true);
             player.teleport(locationList.get(n));
+            this.giveDefaultItem();
         } else {
             player.sendMessage(ChatColor.RED + "加入任意队伍后可进入游戏!");
         }
     }
 
-    public void respawn(Inventory inv){
+    public void respawn(){
         JsonArray locations = new JsonArray();
         if (playerListA.contains(player)){
             locations = gson.fromJson(fileReader(folder + world.getName() + ".json"), JsonObject.class).get("TeamARespawnPoints").getAsJsonArray();
@@ -122,7 +124,6 @@ public class ModeTeamSD {
             locations = gson.fromJson(fileReader(folder + world.getName() + ".json"), JsonObject.class).get("TeamBRespawnPoints").getAsJsonArray();
         }
         player.setGameMode(GameMode.ADVENTURE);
-        player.getInventory().clear();
 
         List<Location> locationList = new ArrayList<>();
         for (int i = 0; i < locations.size(); i++) {
@@ -140,12 +141,6 @@ public class ModeTeamSD {
         player.teleport(locationList.get(n));
         this.giveDefaultItem();
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
-
-        for (ItemStack itemStack : inv){
-            if (itemStack != null){
-                player.getInventory().addItem(itemStack);
-            }
-        }
     }
 
     public void giveDefaultItem(){

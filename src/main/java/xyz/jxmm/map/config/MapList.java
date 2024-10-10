@@ -34,6 +34,7 @@ public class MapList {
                         break;
                     case "team-sd":
                         TEAM_SD_WORLDS.add(worldName);
+                        break;
                 }
 
                 loadWorld(worldName, loc);
