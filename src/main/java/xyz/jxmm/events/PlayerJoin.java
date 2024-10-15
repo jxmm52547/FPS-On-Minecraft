@@ -44,11 +44,14 @@ public class PlayerJoin implements Listener {
                         teamA.setColor(ChatColor.BLUE);
                         teamB.setColor(ChatColor.RED);
 
-                        teamA.getScoreboard().getTeam(w.getName() + "teamA").addEntry("队伍A");
-                        teamB.getScoreboard().getTeam(w.getName() + "teamB").addEntry("队伍B");
+                        teamA.setCanSeeFriendlyInvisibles(true);
+                        teamB.setCanSeeFriendlyInvisibles(true);
 
-                        teamA.setColor(ChatColor.BLUE);
-                        teamB.setColor(ChatColor.RED);
+                        teamA.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+                        teamB.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+
+                        teamA.addEntry(ChatColor.BLUE + "队伍A");
+                        teamB.addEntry(ChatColor.RED + "队伍B");
 
                         teamA.setAllowFriendlyFire(false);
                         teamB.setAllowFriendlyFire(false);

@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import xyz.jxmm.Cs_on_Minecraft;
+import xyz.jxmm.gaming.team_sd.TeamPlayerList;
 import xyz.jxmm.gaming.team_sd.inventory.WeaponsMenuItems;
 
 import java.util.Objects;
@@ -34,6 +35,9 @@ public class CheckMode {
             case "sd" -> new ModeSD(player).firstJoin();
             case "team-sd" -> new ModeTeamSD(player).firstJoin();
         }
+
+        // 将玩家移出旁观者列表
+        TeamPlayerList.spectator(player, "quit");
     }
 
 
@@ -53,6 +57,7 @@ public class CheckMode {
                 player.teleport(w.getSpawnLocation());
 //                w.setKeepSpawnInMemory(true);
                 player.setGameMode(GameMode.SPECTATOR);
+                player.setScoreboard(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(plugin.getServer().getScoreboardManager()).getMainScoreboard().getObjective(worldName + "_killCount")).getScoreboard()));
                 break;
             case "team-sd":
                 player.getInventory().clear();
@@ -66,10 +71,12 @@ public class CheckMode {
                 player.addPotionEffect(PotionEffectType.GLOWING.createEffect(Integer.MAX_VALUE, 255));
                 player.addPotionEffect(PotionEffectType.REGENERATION.createEffect(Integer.MAX_VALUE, 255));
                 player.getInventory().addItem(WeaponsMenuItems.OPEN_MENU);
+                player.setScoreboard(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(plugin.getServer().getScoreboardManager()).getMainScoreboard().getObjective(worldName + "_score")).getScoreboard()));
                 break;
         }
 
-        player.setScoreboard(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(plugin.getServer().getScoreboardManager()).getMainScoreboard().getObjective(worldName + "_score")).getScoreboard()));
+        // 将玩家加入旁观者列表
+        TeamPlayerList.spectator(player, "join");
 
         if (joinOrWait){
             player.sendTitle("§a§l已切换至旁观模式", "§a§l休息会吗", 10, 70, 20);

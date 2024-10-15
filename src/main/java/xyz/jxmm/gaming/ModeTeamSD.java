@@ -74,10 +74,11 @@ public class ModeTeamSD {
             if (playerListA.size() > locationList.size()){
                 player.sendMessage(ChatColor.RED + "队伍人数大于该队伍的出生点数量!");
                 player.sendMessage(ChatColor.RED + "请选择其他队伍或联系管理!");
+            } else {
+                int n = playerListA.size() - 1;
+                player.setBedSpawnLocation(locationList.get(n), true);
+                player.teleport(locationList.get(n));
             }
-            int n = playerListA.size() - 1;
-            player.setBedSpawnLocation(locationList.get(n), true);
-            player.teleport(locationList.get(n));
 
         } else if (playerListB.contains(player)){
             player.setFlying(false);
@@ -102,13 +103,14 @@ public class ModeTeamSD {
                 locationList.add(loc);
             }
 
-            if (playerListA.size() > locationList.size()){
+            if (playerListB.size() > locationList.size()){
                 player.sendMessage(ChatColor.RED + "队伍人数大于该队伍的出生点数量!");
                 player.sendMessage(ChatColor.RED + "请选择其他队伍或联系管理!");
+            } else {
+                int n = playerListB.size() - 1;
+                player.setBedSpawnLocation(locationList.get(n), true);
+                player.teleport(locationList.get(n));
             }
-            int n = playerListA.size() - 1;
-            player.setBedSpawnLocation(locationList.get(n), true);
-            player.teleport(locationList.get(n));
         } else {
             player.sendMessage(ChatColor.RED + "加入任意队伍后可进入游戏!");
         }

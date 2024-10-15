@@ -45,29 +45,34 @@ public class TeamSdUpdateScoreboard {
                 ChatColor.DARK_GREEN + "击杀数: "
                         + ChatColor.GREEN + killCount.getScore(player.getName()).getScore());
         // 获取计分板
-        int s = 0;
+        int s1;
         String team;
         if (TeamPlayerList.playerListA.contains(player)){
             team = "A";
             Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
-            s = score.getScore("队伍A").getScore();
-            score.getScore("队伍A").setScore(s++);
+            int s = score.getScore("队伍A").getScore();
+            score.getScore("队伍A").setScore(s+1);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+            s1 = s+1;
 
         } else if (TeamPlayerList.playerListB.contains(player)){
             team = "B";
             Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
-            s = score.getScore("队伍B").getScore();
-            score.getScore("队伍B").setScore(s++);
+            int s = score.getScore("队伍B").getScore();
+            score.getScore("队伍B").setScore(s+1);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+            s1 = s+1;
         } else {
             team = "";
+            s1 = 0;
         }
         new ModeTeamSD(player).giveDefaultItem();
 
-        if (s == 80){
+        if (s1 == 80){
             player.getWorld().getPlayers().forEach(p -> {
                 switch (team){
                     case "A":

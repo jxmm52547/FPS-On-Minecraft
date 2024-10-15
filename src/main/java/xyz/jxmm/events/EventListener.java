@@ -1,5 +1,7 @@
 package xyz.jxmm.events;
 
+import com.mohistmc.MohistMC;
+import com.mohistmc.forge.MohistEventBus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import xyz.jxmm.Cs_on_Minecraft;
@@ -21,5 +23,8 @@ public class EventListener {
         Bukkit.getPluginManager().registerEvents(new PlayerDropItem(), plugin);
         // 监听玩家右键物品
         Bukkit.getPluginManager().registerEvents(new ItemUse(), plugin);
+
+        // 监听玩家攻击玩家
+        // Bukkit.getPluginManager().registerEvents(new DamageByEntity(), plugin);
     }
 }

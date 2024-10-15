@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import xyz.jxmm.gaming.CheckMode;
 import xyz.jxmm.gaming.ModeSD;
 
 public class Respawn extends Command {
@@ -29,7 +30,7 @@ public class Respawn extends Command {
         }
 
         Player p = (Player) sender;
-        new ModeSD(p).respawn();
+        new CheckMode(p).join();
         return true;
     }
 }

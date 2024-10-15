@@ -43,7 +43,7 @@ public class ReStart extends SubCommand implements ParentCommand {
 
         if (args.length == 0){
             for (Player all : ((Player) s).getWorld().getPlayers()){
-                all.sendRawMessage("/cs exit");
+                all.chat("/" + Cs_on_Minecraft.mainCmd + " exit");
                 return true;
             }
         } else {
