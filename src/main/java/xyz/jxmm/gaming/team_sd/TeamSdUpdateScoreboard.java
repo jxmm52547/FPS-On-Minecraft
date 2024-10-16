@@ -54,6 +54,8 @@ public class TeamSdUpdateScoreboard {
             score.getScore("队伍A").setScore(s+1);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+            player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            player.setScoreboard(score.getScoreboard());
 
             s1 = s+1;
 
@@ -64,6 +66,8 @@ public class TeamSdUpdateScoreboard {
             score.getScore("队伍B").setScore(s+1);
             plugin.getServer().getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
+            player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            player.setScoreboard(score.getScoreboard());
 
             s1 = s+1;
         } else {
@@ -81,12 +85,12 @@ public class TeamSdUpdateScoreboard {
                     case "B":
                         p.sendTitle(ChatColor.AQUA + "游戏结束!", ChatColor.RED + "队伍B胜利", 10, 20, 10);
                         break;
-                    default:
-                        p.chat("/" + mainCmd + " exit");
-                        Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
-                        score.getScore("队伍A").setScore(0);
-                        score.getScore("队伍B").setScore(0);
                 }
+
+                p.chat("/" + mainCmd + " exit");
+                Objective score = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective(worldName + "_score");
+                score.getScore("队伍A").setScore(0);
+                score.getScore("队伍B").setScore(0);
             });
         }
 

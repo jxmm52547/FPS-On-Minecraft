@@ -160,7 +160,7 @@ public class ModeTeamSD {
 
             }
         } catch (NullPointerException e){
-            plugin.getLogger().warning("未找到该地图的默认物品!");
+//            plugin.getLogger().warning("未找到该地图的默认物品!");
         }
 
 

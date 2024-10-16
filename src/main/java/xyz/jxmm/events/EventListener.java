@@ -23,8 +23,7 @@ public class EventListener {
         Bukkit.getPluginManager().registerEvents(new PlayerDropItem(), plugin);
         // 监听玩家右键物品
         Bukkit.getPluginManager().registerEvents(new ItemUse(), plugin);
-
         // 监听玩家攻击玩家
-        // Bukkit.getPluginManager().registerEvents(new DamageByEntity(), plugin);
+         Bukkit.getPluginManager().registerEvents(new DamageByEntity(), plugin);
     }
 }

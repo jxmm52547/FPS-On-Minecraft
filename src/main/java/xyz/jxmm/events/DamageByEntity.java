@@ -5,14 +5,13 @@ import com.tacz.guns.entity.EntityKineticBullet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftProjectile;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.Arrays;
 
@@ -29,27 +28,24 @@ public class DamageByEntity implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDamage(EntityDamageByEntityEvent event){
-        plugin.getLogger().warning(Arrays.toString(EntityType.values()));
-
         if (event.getEntity() instanceof Player victim && event.getDamager() instanceof MohistModsEntity entity){
 
             Entity nmsEntity = entity.getHandle();
-            Player damager = null;
 
             if (nmsEntity instanceof EntityKineticBullet){
                 EntityKineticBullet kineticBullet = (EntityKineticBullet) nmsEntity;
-                Projectile projectile = (Projectile) kineticBullet.projectileSource;
-                 damager = (Player) projectile.m_37282_();
+                CraftPlayer craftPlayer = (CraftPlayer) kineticBullet.projectileSource;
+                Player damager = craftPlayer.getPlayer();
 
-
+                if (damager != null && spectatorList.contains(damager)){
+                    sendActionBar(damager, ChatColor.RED + "旁观模式下, 您无法攻击玩家");
+                    event.setCancelled(true);
+                } else {
+                    sendActionBar(damager, ChatColor.GREEN + victim.getName() + ChatColor.GOLD + " 剩余 " + ChatColor.RED + (int) victim.getHealth()  + "❤");
+                }
             }
-            if (damager != null && spectatorList.contains(damager)){
-                sendActionBar(damager, ChatColor.RED + "旁观模式下, 您无法攻击玩家");
-                event.setCancelled(true);
-            } else {
-                sendActionBar(damager, ChatColor.GREEN + victim.getName() + ChatColor.GOLD + " 剩余 " + ChatColor.RED + victim.getHealth() + "❤");
 
-            }
+
         }
     }
 }
